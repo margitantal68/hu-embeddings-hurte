@@ -1,7 +1,7 @@
 # Comparison of embedder models for Hungarian
 RAG for Hungarian documents. Which embedder to use?
 
-[Presentation Slides](docs/hu-embeddings.pdf)
+[Presentation Slides](docs/hu_embeddings.pdf)
 
 ## Installation
 
@@ -47,7 +47,7 @@ RAG for Hungarian documents. Which embedder to use?
 This project requires an OpenAI API key and Gemini API key. 
 
 1. Obtain your OpenAI API key from [OpenAI's website](https://platform.openai.com/docs/overview).
-1. Obtain yor GEMINI API key from[Google AI Studio](https://aistudio.google.com/app/apikey)
+1. Obtain yor GEMINI API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
 1. Copy the **.env.example** file in the project directory:
     ```bash
     cp .env.example .env
