@@ -1,0 +1,31 @@
+index,question,error_count,error_rate
+23,Milyen elvárás van a munkavégzéssel kapcsolatban?,8,1.0
+9,Mi jár vasárnapi és ünnepnapi munkára?,7,0.875
+5,Milyen szállodákban biztosít munkát a cég?,4,0.5
+12,Milyen típusú lakásokban szállásolják el a dolgozókat?,4,0.5
+24,Milyen egészségügyi állapot kizáró ok?,4,0.5
+25,Ki állapítja meg az egészségügyi alkalmasságot?,4,0.5
+26,Hogyan biztosítják a munkaegyenlőséget?,4,0.5
+8,Mikor történik a fizetés utalása?,3,0.375
+35,Van lehetőség hétvégén hazautazni?,3,0.375
+39,Milyen személyazonosító okmány szükséges?,3,0.375
+2,Hány magyar munkavállaló dolgozik jelenleg a cégnél?,2,0.25
+10,A magyar alapbér előleg?,2,0.25
+15,Kiutazás előtt mit kell teljesíteni?,2,0.25
+19,Milyen pozíciók érhetők el?,2,0.25
+28,Mennyi ideig tart a tréning?,2,0.25
+33,Mikor kezdődik a munkanap?,2,0.25
+38,Milyen munkaviszony szükséges az elmúlt egy évben?,2,0.25
+40,Milyen erkölcsi feltétel van?,2,0.25
+48,Hol van a munkavállaló hivatalosan bejelentve?,2,0.25
+1,Mióta működik a Clearservice Németországban?,1,0.125
+3,Hány németországi területet fed le a cég tevékenysége?,1,0.125
+4,A Clearservice közvetítő cég?,1,0.125
+6,Mennyi a nettó havi fizetés körülbelül?,1,0.125
+7,Mi alapján történik a fizetés kiszámítása?,1,0.125
+27,Hol van a kötelező tréning?,1,0.125
+29,Kinek kötelező elvégezni a tréninget?,1,0.125
+30,Ki fizeti a tréninget?,1,0.125
+32,Hány napos a munkahét?,1,0.125
+34,Meddig tart a napi munka?,1,0.125
+41,Hogyan kell felmondani a meglévő munkahelyen?,1,0.125

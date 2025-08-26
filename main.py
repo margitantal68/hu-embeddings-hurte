@@ -10,7 +10,7 @@ from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
 
-from models import BGEEmbedder, OllamaEmbedder, OpenAIEmbedder, GeminiEmbedder 
+from models import BGEEmbedder, OllamaEmbedder, OpenAIEmbedder, GeminiEmbedder, SentenceTransformerEmbedder 
 
 
 
@@ -96,7 +96,8 @@ def parse_topics(filepath):
         topics.append(text)
     return topics
 
-def evaluate_models_cleanservice_data(model):
+def evaluate_models_cleanservice_data(model_name, model):
+    log_file = 'logs/' + model_name + '.log'
     # Load questions
     df = pd.read_csv("data/cleanservice/cs_qa.csv")
     print(f"Cleanservice data loaded: {len(df)} items.")
@@ -111,33 +112,37 @@ def evaluate_models_cleanservice_data(model):
     recall_at_1 = 0
     recall_at_3 = 0
     num_questions = len(df)
-    for idx, question in enumerate(df['question']):
-        topic = df['topic'][idx]
-        query_vec = model.encode([question], normalize_embeddings=True)
-        D, I = index.search(query_vec, k=3)
-        top_texts = [topic_chunks[i] for i in I[0]]
-        result = [text.split(':', 1)[0].strip() for text in top_texts]
-        # Recall@1
-        if topic == result[0]:
-            recall_at_1 += 1
-        # Recall@3
-        if topic in result:
-            recall_at_3 += 1
-            rank = result.index(topic) + 1
-            reciprocal_ranks.append(1 / rank)
-        else:
-            reciprocal_ranks.append(0.0)
+    with open(log_file, "w", encoding="utf-8") as f:
+        for idx, question in enumerate(df['question']):
+            topic = df['topic'][idx]
+            query_vec = model.encode([question], normalize_embeddings=True)
+            D, I = index.search(query_vec, k=3)
+            top_texts = [topic_chunks[i] for i in I[0]]
+            result = [text.split(':', 1)[0].strip() for text in top_texts]
+            # Recall@1
+            if topic == result[0]:
+                recall_at_1 += 1
+            # Recall@3
+            if topic in result:
+                recall_at_3 += 1
+                rank = result.index(topic) + 1
+                reciprocal_ranks.append(1 / rank)
+            else:
+                reciprocal_ranks.append(0.0)
+                # Log error
+                message = f"Index {idx + 1} - Question: {question}\n True Topic:{topic} \n Retrieved topics: {result}\n" 
+                f.write(message)
 
-    if num_questions > 0:
-        recall_at_1_score = recall_at_1 / num_questions
-        recall_at_3_score = recall_at_3 / num_questions
-        mrr = sum(reciprocal_ranks) / num_questions
-        print(f"Mean Reciprocal Rank (MRR): {mrr:.4f}")
-        print(f"Recall@1: {recall_at_1_score:.4f}")
-        print(f"Recall@3: {recall_at_3_score:.4f}")
-        
-    else:
-        print("No questions to evaluate.")
+        if num_questions > 0:
+            recall_at_1_score = recall_at_1 / num_questions
+            recall_at_3_score = recall_at_3 / num_questions
+            mrr = sum(reciprocal_ranks) / num_questions
+            print(f"Mean Reciprocal Rank (MRR): {mrr:.4f}")
+            print(f"Recall@1: {recall_at_1_score:.4f}")
+            print(f"Recall@3: {recall_at_3_score:.4f}")
+            
+        else:
+            print("No questions to evaluate.")
 
 
 models = [ OllamaEmbedder("nomic-embed-text:latest"),
@@ -146,13 +151,27 @@ models = [ OllamaEmbedder("nomic-embed-text:latest"),
            OpenAIEmbedder("text-embedding-ada-002"),
            OpenAIEmbedder("text-embedding-3-small"),
            GeminiEmbedder(),
-           BGEEmbedder() ]
+           BGEEmbedder(),
+           SentenceTransformerEmbedder() ]
 
+model_names = [
+    "nomic-embed-text:latest",
+    "all-minilm:latest",
+    "paraphrase-multilingual-MiniLM-L12-v2'",
+    "OpenAI - text-embedding-ada-002",
+    "OpenAI - text-embedding-3-small",
+    "Gemini - embedding-001",
+    "BGE-M3",
+    "HuBERT"
+]
 
 if __name__ == "__main__":
-    model = models[5]  
+    index = 3
+    model_name = model_names[index]
+    model = models[index]  
+    evaluate_models_rte_data("data/hurte/rte_train.json", model)
     # evaluate_models_rte_data("data/hurte/rte_dev.json", model)
-    evaluate_models_cleanservice_data(model)
+    # evaluate_models_cleanservice_data(model_name, model)
     print("Evaluation completed.")
     
 

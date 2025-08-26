@@ -31,6 +31,25 @@ class BGEEmbedder:
         )
         return embeddings
 
+
+class SentenceTransformerEmbedder:
+    def __init__(self, model_name="NYTK/sentence-transformers-experimental-hubert-hungarian", normalize_embeddings=True):
+        self.model = SentenceTransformer(model_name)
+        self.normalize_embeddings = normalize_embeddings
+
+    def encode(self, texts, convert_to_numpy=True, normalize_embeddings=None):
+        if isinstance(texts, str):
+            texts = [texts]
+
+        normalize = self.normalize_embeddings if normalize_embeddings is None else normalize_embeddings
+        embeddings = self.model.encode(
+            texts,
+            convert_to_numpy=convert_to_numpy,
+            normalize_embeddings=normalize
+        )
+        return embeddings
+    
+
 class OllamaEmbedder:
     def __init__(self, model_name="nomic_embed_text"):
         self.model_name = model_name
