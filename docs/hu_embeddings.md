@@ -14,7 +14,7 @@ paginate: true
 - Retrieval Evaluation  
 ---
 ## Problem
-- Create a chatbot for the **CleanService** company
+- Create a chatbot for the **ClearService** company
 - Company data: **Hungarian**
 ```
 ## Fizetés
