@@ -145,7 +145,9 @@ def plot_recall_at_3_hurte(data=None):
     plt.tight_layout()
     plt.show()
 
+
 # plot_recall_at_3_clearservice()
-plot_recall_at_3_hurte()
+# plot_recall_at_3_hurte()
+plot_model_comparison()
 
 

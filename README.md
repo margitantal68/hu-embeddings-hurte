@@ -71,7 +71,7 @@ This project requires an OpenAI API key and Gemini API key.
 - Retrieval Evaluation  
 ---
 ## Problem
-- Create a chatbot for the **CleanService** company
+- Create a chatbot for the **ClearService** company
 - Company data: **Hungarian**
 ```
 ## Fizetés
@@ -93,27 +93,42 @@ This project requires an OpenAI API key and Gemini API key.
 
 ---
 ## Solution
-- RAG - **Embedder models:**
-    1. `PP-ML-MINILM` - ST - **paraphrase-multilingual-MiniLM-L12-v2**
-    2. `NOMIC` - Ollama - **nomic-embed-text**
-    3. `MINILM` - Ollama - **all-minilm:latest**
-    4. `OPENAI-ADA` -OpenAI - **text-embedding-ada-002**
-    5. `OPENAI-3 SMALL` -OpenAI - **text-embedding-3-small**
-    5. `GEMINI` - Gemini - **embedding-001**
-    6. `BGE-M3` - ST - **BAAI/bge-m3**
+- Build a RAG system
+- Evaluate the retriever part
+- Plot results
 
 ---
-## Retrieval Evaluation
+
+## Embedder Models
+
+  1. `PP-MINILM` - ST - **paraphrase-multilingual-MiniLM-L12-v2**
+  2. `NOMIC` - Ollama - **nomic-embed-text**
+  3. `MINILM` - Ollama - **all-minilm:latest**
+  4. `OPENAI-ADA` -OpenAI - **text-embedding-ada-002**
+  5. `OPENAI-3 SMALL` -OpenAI - **text-embedding-3-small**
+  6. `GEMINI` - Gemini - **embedding-001**
+  7. `BGE-M3` - ST - **BAAI/bge-m3**
+  8. `HUBERT` - ST - **NYTK/sentence-transformers-experimental-hubert-hungarian**
+
+
+---
+
+## Dataset
+
+- Data for ingestion: [`data/clearservice/topics.txt`](data/clearservice/topics.csv)
+- Question set: [`data/clearservice/cs_qa.csv`](data/clearservice/cs_qa.csv)
+
+---
+## Retriever Evaluation
 
 - Vector DB: **FAISS**
-- Question set: **50** questions - `data/cs_qa.txt`
+- Question set: **50** questions 
 - Metrics:
 1. `MRR` - Mean Reciprocal Rank
 2. `Recall@1`
 3. `Recall@3`
 ---
 ## Results - Table
-
 | Model         | MRR  | Recall@1 | Recall@3 |
 |---------------|------|----------|----------|
 | BGE-M3        | 0.90 | 0.86     | 0.96     |
@@ -123,24 +138,36 @@ This project requires an OpenAI API key and Gemini API key.
 | NOMIC         | 0.71 | 0.64     | 0.80     |
 | MINILM        | 0.59 | 0.46     | 0.74     |
 | GEMINI        | 0.50 | 0.38     | 0.68     |
+| HUBERT        | 0.48 | 0.38     | 0.68     |
 
 ---
-## Results - All metrics
 
-  <img src="docs/hu-embeddings.png" alt="Results" width="1100"/> 
+## Semantic vs Lexical Search
+| Model         | MRR  | Recall@1 | Recall@3 |
+|---------------|------|----------|----------|
+| BGE-M3 (best semantic)  | 0.90 | 0.86     | 0.96    |
+| HUBERT  (worst semantic)| 0.48 | 0.38     | 0.68    |
+| BM25 (**lexical**)          | 0.77 | 0.68     | 0.80    |
 
 ---
-## Results - Recall@3
-
-  <img src="docs/recall3-hu.png" alt="Results" width="900"/> 
+## Results 
+  MRR, Recall@1, Recall@3
+  <img src="docs/allmetrics_clearservice.png" alt="Results" width="900"/> 
 
 ---
-## Best Models
+## Results
+Recall@3
+  <img src="docs/recall3_clearservice.png" alt="Results" width="800"/> 
+
+---
+## Best Models 
 | **Model**         | **Provider**          | **Dim.**  | **Context** |
 | ------------------| --------------------- | ----------|--------------|
 | **BGE-M3**        | Sentence-Transformers | 1024      | 8192 tokens  |
-| **PP‑ML‑MINILM**  | Sentence-Transformers | 384       | 256  tokens  |
+| **PP‑MINILM**     | Sentence-Transformers | 384       | 256  tokens  |
 | **OPENAI-3SMALL** | OpenAI                | 1536      | 8192 tokens  |
+
+
 
 ---
 ## Winner
