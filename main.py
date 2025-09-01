@@ -94,11 +94,11 @@ def parse_topics(filepath):
         topics.append(text)
     return topics
 
-def evaluate_models_cleanservice_data(model_name, model):
+def evaluate_models_clearservice_data(model_name, model):
     log_file = 'logs/' + model_name + '.log'
     # Load questions
     df = pd.read_csv("data/clearservice/cs_qa.csv")
-    print(f"Cleanservice data loaded: {len(df)} items.")
+    print(f"Clearservice data loaded: {len(df)} items.")
     
 
     # Create FAISS index
@@ -152,7 +152,8 @@ models = [ OllamaEmbedder("nomic-embed-text:latest"),
         #    BGEEmbedder(),
            SentenceTransformerEmbedder("BAAI/bge-m3"),
            SentenceTransformerEmbedder("NYTK/sentence-transformers-experimental-hubert-hungarian"),
-           SentenceTransformerEmbedder("sentence-transformers/paraphrase-xlm-r-multilingual-v1") ]
+           SentenceTransformerEmbedder("sentence-transformers/paraphrase-xlm-r-multilingual-v1"),
+            SentenceTransformerEmbedder("danieleff/hubert-base-cc-sentence-transformer") ]
 
 model_names = [
     "nomic-embed-text:latest",
@@ -163,17 +164,19 @@ model_names = [
     "Gemini - embedding-001",
     "BGE-M3",
     "HuBERT",
-    "Roberta-multilingual"
+    "Roberta-multilingual",
+    "HuBERT-CC"
 ]
 
 if __name__ == "__main__":
-    index = 6
+    index = 9
     model_name = model_names[index]
     model = models[index]  
     print(f"Evaluating model: {model_name}")
+    evaluate_models_clearservice_data(model_name, model)
     # evaluate_models_rte_data("data/hurte/rte_train.json", model)
-    evaluate_models_rte_data("data/hurte/rte_dev.json", model)
-    # evaluate_models_cleanservice_data(model_name, model)
+    # evaluate_models_rte_data("data/hurte/rte_dev.json", model)
+   
     print("Evaluation completed.")
     
 

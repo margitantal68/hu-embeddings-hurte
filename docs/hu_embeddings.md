@@ -74,14 +74,24 @@ paginate: true
 ## Results - Table
 | Model         | MRR  | Recall@1 | Recall@3 |
 |---------------|------|----------|----------|
-| BGE-M3        | 0.90 | 0.86     | 0.96     |
-| PP-ML-MINILM  | 0.84 | 0.78     | 0.92     |
+| [BGE-M3](https://huggingface.co/BAAI/bge-m3)        | 0.90 | 0.86     | 0.96     |
+| [PP-ML-MINILM](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2)  | 0.84 | 0.78     | 0.92     |
 | OPENAI-ADA    | 0.80 | 0.72     | 0.90     |
 | OPENAI-3 SMALL| 0.80 | 0.72     | 0.94     |
 | NOMIC         | 0.71 | 0.64     | 0.80     |
 | MINILM        | 0.59 | 0.46     | 0.74     |
 | GEMINI        | 0.50 | 0.38     | 0.68     |
-| HUBERT        | 0.48 | 0.38     | 0.68     |
+
+---
+## Results - Table (cont)
+
+| Model         | MRR  | Recall@1 | Recall@3 |
+|---------------|------|----------|----------|
+| [XLMRoBERTa](https://huggingface.co/sentence-transformers/paraphrase-xlm-r-multilingual-v1)    | 0.90 | 0.86     | 0.96     |
+| [danieleff/hubert-base-cc-](https://huggingface.co/danieleff/hubert-base-cc-sentence-transformer)| 0.78 | 0.74    | 0.84    |
+| [HUBERT](https://huggingface.co/NYTK/sentence-transformers-experimental-hubert-hungarian)        | 0.48 | 0.38     | 0.68     |
+
+
 
 ---
 
