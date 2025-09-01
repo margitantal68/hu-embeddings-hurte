@@ -10,11 +10,9 @@ from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
 
-from models import BGEEmbedder, OllamaEmbedder, OpenAIEmbedder, GeminiEmbedder, SentenceTransformerEmbedder 
+from models import OllamaEmbedder, OpenAIEmbedder, GeminiEmbedder, SentenceTransformerEmbedder 
 
 
-
-    
 def build_faiss_index(texts, model):
     embeddings = model.encode(texts, convert_to_numpy=True, normalize_embeddings=True)
     print('SHAPE: ', embeddings.shape)
@@ -78,7 +76,7 @@ def evaluate_models_rte_data(filename, model):
     print(f"Recall@1: {recall_at_1_score:.4f}")
     print(f"Recall@3: {recall_at_3_score:.4f}")
 
-# Cleanservice data 
+# Clearservice data 
 
 def parse_topics(filepath):
     with open(filepath, encoding='utf-8') as f:
@@ -99,12 +97,12 @@ def parse_topics(filepath):
 def evaluate_models_cleanservice_data(model_name, model):
     log_file = 'logs/' + model_name + '.log'
     # Load questions
-    df = pd.read_csv("data/cleanservice/cs_qa.csv")
+    df = pd.read_csv("data/clearservice/cs_qa.csv")
     print(f"Cleanservice data loaded: {len(df)} items.")
     
 
     # Create FAISS index
-    topic_chunks = parse_topics("data/cleanservice/topics.txt")
+    topic_chunks = parse_topics("data/clearservice/topics.txt")
     index, embeddings = build_faiss_index(topic_chunks, model)
 
     # Evaluate retriever with the embedder model
@@ -151,8 +149,10 @@ models = [ OllamaEmbedder("nomic-embed-text:latest"),
            OpenAIEmbedder("text-embedding-ada-002"),
            OpenAIEmbedder("text-embedding-3-small"),
            GeminiEmbedder(),
-           BGEEmbedder(),
-           SentenceTransformerEmbedder() ]
+        #    BGEEmbedder(),
+           SentenceTransformerEmbedder("BAAI/bge-m3"),
+           SentenceTransformerEmbedder("NYTK/sentence-transformers-experimental-hubert-hungarian"),
+           SentenceTransformerEmbedder("sentence-transformers/paraphrase-xlm-r-multilingual-v1") ]
 
 model_names = [
     "nomic-embed-text:latest",
@@ -162,15 +162,17 @@ model_names = [
     "OpenAI - text-embedding-3-small",
     "Gemini - embedding-001",
     "BGE-M3",
-    "HuBERT"
+    "HuBERT",
+    "Roberta-multilingual"
 ]
 
 if __name__ == "__main__":
-    index = 3
+    index = 6
     model_name = model_names[index]
     model = models[index]  
-    evaluate_models_rte_data("data/hurte/rte_train.json", model)
-    # evaluate_models_rte_data("data/hurte/rte_dev.json", model)
+    print(f"Evaluating model: {model_name}")
+    # evaluate_models_rte_data("data/hurte/rte_train.json", model)
+    evaluate_models_rte_data("data/hurte/rte_dev.json", model)
     # evaluate_models_cleanservice_data(model_name, model)
     print("Evaluation completed.")
     
